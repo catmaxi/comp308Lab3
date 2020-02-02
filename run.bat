@@ -7,3 +7,7 @@ tasm lab3.asm
 tlink lab3
 
 lab3.exe
+
+cd ..
+
+cd ..
