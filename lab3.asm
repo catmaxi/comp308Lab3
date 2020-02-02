@@ -44,16 +44,18 @@ start:
 	mov ah, 2
 	int 21h
 	pop bx
+	pop dx
 	dec cx
 	jnz printSymbol
 	; print new line
+	push dx
 	mov ah, 9
 	mov dx, OFFSET Newline
 	int 21h
 	pop dx
 	pop cx
-	dec cx
 	inc bx
+	dec cx
 	; mov dl, cl
 	; mov ah, 2
 	; int 21h

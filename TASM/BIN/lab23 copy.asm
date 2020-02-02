@@ -1,6 +1,7 @@
-.model small
-.stack 100h
-.data
+.model small 
+.stack 100h 
+.data  
+  sPrompt db "Enter a number: $"  
 	Prompt1	db "Input Triangle Size: $"
 	Prompt2	db 10,13,"Input Triangle Symbol: $"
 	Newline	db 10,13,"$"
@@ -30,37 +31,26 @@ start:
 	int 21h
 	mov dl, al
 	mov bx, 1
-	; outer loop. bx line number
-	printLine:
-	; save our counter
-	push cx
-	mov cx, bx
-	; inner loop
-	; for loop that will print the symbols
-	printSymbol:
-	; protect bx and dx, then print symbol in dl
-	push dx
-	push bx
-	mov ah, 2
-	int 21h
-	pop bx
-	pop dx
-	dec cx
-	jnz printSymbol
-	; print new line
-	push dx
-	mov ah, 9
-	mov dx, OFFSET Newline
-	int 21h
-	pop dx
-	pop cx
-	inc bx
-	dec cx
-	; mov dl, cl
-	; mov ah, 2
-	; int 21h
-	jnz printLine
-	; terminate program
-	mov ax, 4c00h
-	int 21h
+
+  ; label that will be used for our loop 
+
+printMore: 
+  
+  ; save our counter  
+  push cx 
+
+  ; print our string  
+  mov ah, 9  
+  mov dx, dl
+  int 21h 
+
+  ; restore our counter  pop cx 
+
+  ; decrement counter and jump back if it's not 0  
+  dec cx  
+  jnz short printMore 
+
+  ; terminate program  
+  mov ax, 4c00h  
+  int 21h 
 END start
