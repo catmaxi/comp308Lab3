@@ -19,6 +19,7 @@ main:
     ; set counter register to input number
     ; (subtract '0' from input ASCII character to get a number)
     sub al, '0'
+    jz term
     xor cx, cx
     mov cl, al
     ; ask for triangle symbol
@@ -37,6 +38,7 @@ main:
     pop dx
     call outerloop
     ; terminate program
+    term:
     mov ax, 4c00h
     int 21h
     ; outer loop. bx line number
