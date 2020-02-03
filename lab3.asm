@@ -21,6 +21,8 @@ main:
     sub al, '0'
     xor cx, cx
     mov cl, al
+    ; pass cl as size parameter to print
+    push cx
     ; ask for triangle symbol
     mov ah, 9
     mov dx, OFFSET Prompt2
@@ -29,20 +31,30 @@ main:
     mov ah, 1
     int 21h
     mov dl, al
+    ; pass dl as symbol parameter to print
     push dx
     mov bx, 1
     mov ah, 9
     mov dx, OFFSET Newline
     int 21h
     pop dx
+    call print
+    ; terminate program
+    mov ax, 4c00h
+    int 21h
+
+print:
+    ; fetch parameters
+    pop dx
+    pop cx
     ; outer loop. bx line number
-    printLine:
+    outerloop:
     ; save our counter
     push cx
     mov cx, bx
     ; inner loop
     ; for loop that will print the symbols
-    printSymbol:
+    innerloop:
     ; protect bx and dx, then print symbol in dl
     push dx
     push bx
@@ -51,7 +63,7 @@ main:
     pop bx
     pop dx
     dec cx
-    jnz printSymbol
+    jnz innerloop
     ; print new line
     push dx
     mov ah, 9
@@ -61,8 +73,6 @@ main:
     pop cx
     inc bx
     dec cx
-    jnz printLine
-    ; terminate program
-    mov ax, 4c00h
-    int 21h
+    jnz outerloop
+    ret
     END main
