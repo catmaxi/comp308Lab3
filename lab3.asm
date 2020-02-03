@@ -35,18 +35,18 @@ main:
     mov dx, OFFSET Newline
     int 21h
     pop dx
-    call printLine
+    call outerloop
     ; terminate program
     mov ax, 4c00h
     int 21h
     ; outer loop. bx line number
-    printLine:
+    outerloop:
     ; save our counter
     push cx
     mov cx, bx
     ; inner loop
     ; for loop that will print the symbols
-    printSymbol:
+    innerloop:
     ; protect bx and dx, then print symbol in dl
     push dx
     push bx
@@ -55,7 +55,7 @@ main:
     pop bx
     pop dx
     dec cx
-    jnz printSymbol
+    jnz innerloop
     ; print new line
     push dx
     mov ah, 9
@@ -65,6 +65,6 @@ main:
     pop cx
     inc bx
     dec cx
-    jnz printLine
+    jnz outerloop
     ret
     END main
