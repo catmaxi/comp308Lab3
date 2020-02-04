@@ -1,12 +1,12 @@
-copy  lab3.asm TASM\BIN
+copy  triangle.asm TASM\BIN
 
 cd TASM\BIN
 
-tasm lab3.asm
+tasm triangle.asm
 
-tlink lab3
+tlink triangle
 
-lab3.exe
+triangle.exe
 
 cd ..
 
